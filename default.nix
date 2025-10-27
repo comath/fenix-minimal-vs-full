@@ -32,4 +32,21 @@ in
 
           cargoLock.lockFile = ./Cargo.lock;
         };
+
+  packages.ciao_world =
+        (pkgs.makeRustPlatform {
+          cargo = badRustToolchain;
+          rustc = badRustToolchain;
+        }).buildRustPackage {
+          pname = "example";
+          version = "0.1.0";
+
+          src = ./.;
+
+          cargoLock.lockFile = ./Cargo.lock;
+
+          env = {
+            RUSTFLAGS = "-C link-self-contained=-linker";
+          };
+        };
 }
